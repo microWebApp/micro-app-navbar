@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <!-- <h3>首页</h3> -->
+    <p>首页 仪表盘</p>
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
@@ -16,3 +18,9 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.home {
+  background-color: green;
+}
+</style>

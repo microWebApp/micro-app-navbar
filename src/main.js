@@ -3,8 +3,20 @@ import singleSpaVue from 'single-spa-vue'
 
 import App from './App.vue'
 import router from './router'
+import store from './store'
+import { HIDE_NAV_BAR, SHOW_NAV_BAR } from '@/store/types.js'
 
 Vue.config.productionTip = false
+
+router.beforeEach(function (to, from, next) {
+  console.log('$router.beforeEach', to)
+  if (to.path === '/account/login') {
+    store.commit(HIDE_NAV_BAR)
+  } else {
+    store.commit(SHOW_NAV_BAR)
+  }
+  next()
+})
 
 const vueLifecycles = singleSpaVue({
   Vue,
@@ -23,7 +35,8 @@ const vueLifecycles = singleSpaVue({
         }
       })
     },
-    router
+    router,
+    store
   }
 })
 
