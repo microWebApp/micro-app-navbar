@@ -1,36 +1,60 @@
 <template>
   <div id="app">
-    <div id="nav-left" v-if="navBar">
-      <ul>
-        <li>
-          <router-link to="/">首页仪表盘</router-link>
-        </li>
-        <li>
-          <router-link to="/account">用户管理</router-link>
-        </li>
-        <li>
-          <router-link to="/account/login">登录</router-link>
-        </li>
-      </ul>
-      <!-- <router-link to="/about">About</router-link> -->
-    </div>
-    <div id="nav-top" v-if="navBar">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-      <DatePicker/>
-    </div>
-    <router-view :class="rvContent"/>
+    <a-layout id="components-layout-demo-custom-trigger">
+    <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+      <div class="logo" />
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
+        <a-menu-item key="1">
+          <a-icon type="user" />
+          <span>nav 1</span>
+        </a-menu-item>
+        <a-menu-item key="2">
+          <a-icon type="video-camera" />
+          <span>nav 2</span>
+        </a-menu-item>
+        <a-menu-item key="3">
+          <a-icon type="upload" />
+          <span>nav 3</span>
+        </a-menu-item>
+      </a-menu>
+    </a-layout-sider>
+    <a-layout>
+      <a-layout-header style="background: #fff; padding: 0">
+        <a-icon
+          class="trigger"
+          :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+          @click="() => (collapsed = !collapsed)"
+        />
+      </a-layout-header>
+      <!-- <a-layout-content
+        :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
+      >
+        Content
+      </a-layout-content> -->
+    </a-layout>
+  </a-layout>
   </div>
 </template>
 
 <script>
 import { publicApiFunction } from '@patpat-f2e/turing-util'
-import { DatePicker } from 'ant-design-vue'
+import { Layout, Icon, Menu } from 'ant-design-vue'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    DatePicker
+    'a-layout': Layout,
+    // 'a-layout-content': Layout.Content,
+    'a-layout-header': Layout.Header,
+    'a-icon': Icon,
+    'a-menu': Menu,
+    'a-menu-item': Menu.Item,
+    'a-layout-sider': Layout.Sider
+  },
+  data () {
+    return {
+      collapsed: false
+    }
   },
   mounted () {
     publicApiFunction()
@@ -44,6 +68,12 @@ export default {
     }
   },
   methods: {
+    onCollapse (collapsed, type) {
+      console.log(collapsed, type)
+    },
+    onBreakpoint (broken) {
+      console.log(broken)
+    }
   }
 }
 </script>
@@ -92,4 +122,24 @@ export default {
 .rv-content-full {
   background-color: #ccc;
 }
+</style>
+<style>
+#components-layout-demo-custom-trigger .trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#components-layout-demo-custom-trigger .trigger:hover {
+  color: #1890ff;
+}
+
+#components-layout-demo-custom-trigger .logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+}
+
 </style>
